@@ -1,104 +1,79 @@
 # 🤖 Shnny Bot — WhatsApp Assistant
+### Powered by [Zaileys](https://github.com/zeative/zaileys) (v4.2.1)
 
-**Shnny Bot** adalah bot asisten WhatsApp modular premium berbasis TypeScript yang dirancang untuk performa tinggi, struktur modular, serta visual interaktif yang memukau (menggunakan WhatsApp Native Buttons dan Bottom Sheets).
-
-Bot ini dikembangkan menggunakan library **[Zaileys](https://github.com/zeative/zaileys)**, sebuah framework pembungkus modern dan sederhana di atas engine **Baileys**.
-
----
-
-## ✨ Fitur Utama
-
-- 🖼️ **Menu Interaktif dengan Thumbnail**: Tampilan menu utama `/help` menggunakan WhatsApp Native Buttons + Bottom Sheet (`bottomSheet`) dengan header gambar background secara native.
-- ⚙️ **Modular Plugin System**: Semua modul perintah dipisah secara rapi dalam folder `src/plugins` dan di-load secara dinamis.
-- 👥 **Group Management**: Perintah lengkap untuk admin grup seperti Tagall, Promote, Demote, Kick, Add, dan Group Info.
-- 🎨 **Media & Maker**: Fitur pembuat stiker (`/sticker`) dan quote WhatsApp (`/qwa`).
-- 🛠️ **Owner Control**: Mode kehadiran, pengontrolan plugin (aktif/nonaktifkan dinamis), mode public/self, broadcast, dan penjadwal pesan.
-- 💾 **Storage/History Tracking**: Penyimpanan data riwayat pesan yang rapi.
+A professional, modular WhatsApp assistant built with TypeScript, leveraging the high-level simplicity of the **Zaileys** framework.
 
 ---
 
-## 🚀 Persyaratan Sistem
+## 📂 Project Architecture
 
-Sebelum menjalankan bot ini, pastikan Anda telah menginstal komponen berikut:
-* **Node.js** v20 atau lebih baru
-* **pnpm** (direkomendasikan sebagai package manager)
-
----
-
-## 🛠️ Instalasi & Cara Menjalankan
-
-1. **Pasang Dependensi:**
-   Jalankan perintah berikut di terminal untuk memasang semua modul yang dibutuhkan:
-   ```bash
-   pnpm install
-   ```
-
-2. **Konfigurasi Nomor Bot:**
-   Buka file `src/index.ts` dan ganti nilai `phoneNumber` dengan nomor WhatsApp yang ingin Anda gunakan sebagai bot (gunakan format kode negara tanpa simbol `+`, contoh: `628xxxxxxxx`):
-   ```typescript
-   const client = new Client({
-     authType: 'pairing',
-     phoneNumber: '628xxxxxxxx', // Ganti dengan nomor WhatsApp bot Anda
-     ...
-   });
-   ```
-
-3. **Jalankan Bot:**
-   Jalankan perintah berikut untuk mengaktifkan bot:
-   ```bash
-   pnpm start
-   ```
-
-4. **Pairing dengan WhatsApp:**
-   Setelah bot berjalan, kode pairing (8 digit) akan muncul di terminal Anda. Buka WhatsApp di HP Anda -> **Perangkat Tertaut** -> **Tautkan Perangkat** -> **Tautkan dengan Nomor Telepon**, kemudian masukkan 8 digit kode tersebut.
-
----
-
-## 📂 Struktur Proyek
+The codebase features a clean, plug-and-play structure where commands are loaded dynamically from the plugins folder.
 
 ```bash
 ├── src/
-│   ├── index.ts          # Entry point utama inisialisasi client
-│   ├── types.ts          # Definisi tipe TypeScript
-│   ├── utils/            # Helper & utilitas pembantu
-│   └── plugins/          # Folder kumpulan plugin/perintah bot
-│       ├── general/      # Perintah umum & help
-│       ├── group/        # Perintah administrasi grup
-│       ├── interactive/  # Contoh fitur interaktif buttons/list
-│       ├── maker/        # Stiker & media maker
-│       ├── media/        # Pengirim media (gambar, video, audio)
-│       └── owner/        # Perintah khusus pemilik bot (mutasi/plugin control)
-├── package.json          # File konfigurasi dependensi npm
-├── tsconfig.json         # Konfigurasi compiler TypeScript
-└── README.md             # Dokumentasi ini
+│   ├── index.ts          # Main client entry point
+│   ├── types.ts          # TypeScript declarations
+│   ├── utils/            # Utility helpers
+│   └── plugins/          # Dynamic plugin system
+│       ├── general/      # General & help commands
+│       ├── group/        # Group moderation tools
+│       ├── interactive/  # Rich layout templates (buttons, bottomSheets)
+│       ├── maker/        # Media conversion & quotes generator
+│       ├── media/        # Media downloader and player
+│       ├── owner/        # Superuser and state management commands
+│       └── storage/      # History logs
 ```
 
 ---
 
-## 📋 Pembagian Kategori Menu
+## 📋 Command Categories
 
-* **Umum (General)**: Perintah dasar sistem dan pengecekan bot (e.g. `/ping`, `/help`).
-* **Grup (Group)**: Administrasi anggota grup (e.g. `/kick`, `/promote`, `/tagall`).
-* **Interaktif (Interactive)**: Contoh pesan kaya WhatsApp (e.g. `/buttons`, `/carousel`, `/markdown`, `/poll`).
-* **Maker**: Konversi media ke stiker (`/sticker`) dan pembuatan quote gambar (`/qwa`).
-* **Media**: Pengiriman file dan link media (`/image`, `/video`, `/audio`).
-* **Owner (Pemilik)**: Manajemen bot level tinggi (e.g. `/presence`, `/selfmode`, `/broadcast`, `/aplug`, `/dplug`).
-* **Penyimpanan (Storage)**: Log riwayat pesan (`/history`).
-
----
-
-## 📜 Lisensi & Aturan Penggunaan
-
-Proyek ini dilisensikan di bawah **Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)**.
-
-* ❌ **DILARANG UNTUK DIJUAL KEMBALI (PROHIBITED FOR RESALE)**.
-* ❌ Dilarang mengambil keuntungan komersial dari distribusi kode ini tanpa izin tertulis.
-* 🏷️ Wajib mencantumkan atribusi/kredit kepada pembuat asli serta library **Zaileys**.
+*   **General**: Core system tools and help utilities.
+*   **Group**: Complete moderation tools for group administrators.
+*   **Interactive**: Native rich media templates (interactive buttons, polls, and bottom sheets).
+*   **Maker**: Utilities for converting media to stickers or generating WA-style quotes.
+*   **Media**: File attachments handler for images, videos, audios, and albums.
+*   **Owner**: Advanced developer settings (state controls, dynamic plugin manager, broadcast).
+*   **Storage**: Message history tracking.
 
 ---
 
-## 💖 Penghargaan (Credits)
+## 🚀 Getting Started
 
-Terima kasih sebesar-besarnya kepada:
-* **[Zaileys](https://github.com/zeative/zaileys)** oleh [zaadevofc](https://github.com/zaadevofc) sebagai library wrapper WhatsApp API utama bot ini.
-* **[Baileys](https://github.com/WhiskeySockets/Baileys)** sebagai engine WhatsApp API mendasar.
+### Prerequisites
+- Node.js >= 20.0.0
+- pnpm (recommended)
+
+### Installation
+1. Install project dependencies:
+   ```bash
+   pnpm install
+   ```
+2. Configure your bot's phone number in `src/index.ts`:
+   ```typescript
+   const client = new Client({
+     authType: 'pairing',
+     phoneNumber: 'YOUR_PHONE_NUMBER', // e.g. '628xxxxxxxx'
+     ...
+   });
+   ```
+3. Run the bot:
+   ```bash
+   pnpm start
+   ```
+4. Enter the 8-digit pairing code shown in the terminal into your WhatsApp App (Linked Devices -> Link with Phone Number).
+
+---
+
+## 📜 License & Usage Policy
+
+Licensed under the **Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)**.
+
+- ❌ **Commercial resale or redistribution for profit is strictly prohibited.**
+- 🏷️ Attribution to the original author and the **Zaileys** library must be preserved.
+
+---
+
+## 💖 Credits
+- **[Zaileys Framework](https://github.com/zeative/zaileys)** — High-level WhatsApp API client.
+- **[Baileys Engine](https://github.com/WhiskeySockets/Baileys)** — Lower-level socket protocol handler.
