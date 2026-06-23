@@ -1,0 +1,68 @@
+import { Client } from 'zaileys';
+import { Plugin } from '../../types.js';
+import { readdirSync, existsSync } from 'fs';
+import { join, extname } from 'path';
+import os from 'os';
+
+function countPlugins(): number {
+  const pluginsDir = join(process.cwd(), 'src/plugins');
+  let count = 0;
+
+  function walk(dir: string) {
+    if (!existsSync(dir)) return;
+    const entries = readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = join(dir, entry.name);
+      if (entry.isDirectory()) {
+        walk(fullPath);
+      } else if (entry.isFile()) {
+        const ext = extname(entry.name);
+        if ((ext === '.ts' || ext === '.js') && !['index.ts', 'index.js', 'types.ts', 'types.js'].includes(entry.name)) {
+          count++;
+        }
+      }
+    }
+  }
+
+  walk(pluginsDir);
+  return count;
+}
+
+function getUptimeString(seconds: number): string {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = Math.floor(seconds % 60);
+  return `${h}h ${m}m ${s}s`;
+}
+
+export const pingPlugin: Plugin = {
+  name: 'ping',
+  setup(client: Client) {
+    client.command('ping', async (ctx) => {
+      const start = Date.now();
+      const key = await ctx.reply('⏳ *Calculating latency...*');
+      const lat = Date.now() - start;
+
+      let speedStatus = '🚀 Fast';
+      if (lat > 200) speedStatus = '🐢 Slow';
+      else if (lat > 100) speedStatus = '⚡ Stable';
+
+      const uptime = getUptimeString(process.uptime());
+      const memory = process.memoryUsage();
+      const ramUsed = (memory.heapUsed / 1024 / 1024).toFixed(1);
+      const ramTotal = (memory.heapTotal / 1024 / 1024).toFixed(1);
+      const platform = os.platform();
+      const activePlugins = countPlugins();
+
+      const boxMsg = `┌─ Status ─┐
+│ Lat: ${lat}ms ${speedStatus}
+│ Up: ${uptime}
+│ RAM: ${ramUsed}/${ramTotal} MB
+│ OS: ${platform} Node${process.version}
+│ Plugin: ${activePlugins}
+└──────────┘`;
+
+      await client.edit(key).text(boxMsg);
+    });
+  }
+};

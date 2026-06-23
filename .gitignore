@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+pnpm-debug.log*
+
+# Production Build Output
+dist/
+
+# Cloned local repository copy (used for reference)
+zaileys/
+
+# Sessions & Auth Data
+.zaileys/
+
+# Environment Variables & Temporary Files
+.env
+*.log
+.DS_Store
