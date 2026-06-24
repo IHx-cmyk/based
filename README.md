@@ -6,6 +6,10 @@
 [![pnpm](https://img.shields.io/badge/pnpm-v11-orange?style=for-the-badge&logo=pnpm)](https://pnpm.io/)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-red?style=for-the-badge)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
+<p align="center">
+  <img src="src/source/backgroud.png" alt="Shnny Bot Banner" width="600px" style="border-radius: 10px;">
+</p>
+
 A professional, modular WhatsApp assistant built with TypeScript, leveraging the high-level simplicity of the **Zaileys** framework.
 
 ---
