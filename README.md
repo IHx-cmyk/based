@@ -47,6 +47,9 @@ The codebase features a clean, plug-and-play structure where commands are loaded
 *   **Owner**: Advanced developer settings (state controls, dynamic plugin manager, broadcast).
 *   **Storage**: Message history tracking.
 
+> [!NOTE]
+> While the bot relies on the **Zaileys** library for simplified API endpoints and rich template layers, several underlying features and advanced modules still communicate directly with the original **Baileys** engine to preserve full raw functionality.
+
 ---
 
 ## 🚀 Getting Started

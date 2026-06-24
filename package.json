@@ -16,7 +16,7 @@
     "modular-bot",
     "typescript"
   ],
-  "author": "Shanny, Zaileys",
+  "author": "Shanny",
   "license": "ISC",
   "type": "module",
   "dependencies": {
