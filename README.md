@@ -1,13 +1,15 @@
-# 🤖 Shnny Bot — WhatsApp Assistant
-
-[![Zaileys Version](https://img.shields.io/badge/Zaileys-v4.2.1-3366cc?style=for-the-badge&logo=npm)](https://github.com/zeative/zaileys)
-[![TypeScript](https://img.shields.io/badge/TypeScript-v5%2B-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20-green?style=for-the-badge&logo=node.js)](https://nodejs.org/)
-[![pnpm](https://img.shields.io/badge/pnpm-v11-orange?style=for-the-badge&logo=pnpm)](https://pnpm.io/)
-[![License](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-red?style=for-the-badge)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
+# WhatsApp Bot
 
 <p align="center">
   <img src="src/source/backgroud.png" alt="Shnny Bot Banner" width="600px" style="border-radius: 10px;">
+</p>
+
+<p align="center">
+  <a href="https://github.com/zeative/zaileys"><img src="https://img.shields.io/badge/Zaileys-v4.2.1-3366cc?style=for-the-badge&logo=npm" alt="Zaileys Version"></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-v5%2B-blue?style=for-the-badge&logo=typescript" alt="TypeScript"></a>
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-%3E%3D20-green?style=for-the-badge&logo=node.js" alt="Node.js"></a>
+  <a href="https://pnpm.io/"><img src="https://img.shields.io/badge/pnpm-v11-orange?style=for-the-badge&logo=pnpm" alt="pnpm"></a>
+  <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/"><img src="https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-red?style=for-the-badge" alt="License"></a>
 </p>
 
 A professional, modular WhatsApp assistant built with TypeScript, leveraging the high-level simplicity of the **Zaileys** framework.
