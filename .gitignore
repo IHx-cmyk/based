@@ -13,5 +13,8 @@ zaileys/
 
 # Environment Variables & Temporary Files
 .env
+.gemini/
+pnpm-lock.yaml
+pnpm-workspace.yaml
 *.log
 .DS_Store
