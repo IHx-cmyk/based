@@ -130,7 +130,8 @@ export default definePlugin({
  🔹 /getplugin <nama>
  🔹 /find <query> 
  🔹 /aplug <path>
- 🔹 /dplug <nama>`;
+ 🔹 /dplug <nama>
+ 🔹 /clearsession - Hapus session & logout`;
                 await sendCategoryMenu('> Menu Owner', formatMenu(subMenu));
                 return;
             }
@@ -185,6 +186,7 @@ export default definePlugin({
 │ 🔹 /find <query>
 │ 🔹 /aplug <path>
 │ 🔹 /dplug <nama>
+│ 🔹 /clearsession
 └──`;
                 let sentAll = false;
                 try {

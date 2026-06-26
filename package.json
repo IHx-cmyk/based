@@ -1,11 +1,11 @@
 {
   "name": "shnny",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node --watch src/index.js",
-    "start": "node src/index.js"
+    "dev": "redis-server --daemonize yes 2>/dev/null || true; node --watch src/index.js",
+    "start": "redis-server --daemonize yes 2>/dev/null || true; node src/index.js"
   },
   "keywords": [
     "whatsapp",
@@ -19,6 +19,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "redis": "^6.0.1",
     "zaileys": "latest"
   },
   "devDependencies": {

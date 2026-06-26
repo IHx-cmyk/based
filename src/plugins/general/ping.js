@@ -1,6 +1,7 @@
 import { readdirSync, existsSync } from 'fs';
 import { join, extname } from 'path';
 import os from 'os';
+import { definePlugin } from 'zaileys';
 function countPlugins() {
     const pluginsDir = join(process.cwd(), 'src/plugins');
     let count = 0;
@@ -30,32 +31,41 @@ function getUptimeString(seconds) {
     const s = Math.floor(seconds % 60);
     return `${h}h ${m}m ${s}s`;
 }
-export const pingPlugin = {
+export default definePlugin({
     name: 'ping',
     setup(client) {
         client.command('ping', async (ctx) => {
-            const start = Date.now();
-            const key = await ctx.reply('⏳ *Calculating latency...*');
-            const lat = Date.now() - start;
-            let speedStatus = '🚀 Fast';
-            if (lat > 200)
-                speedStatus = '🐢 Slow';
-            else if (lat > 100)
-                speedStatus = '⚡ Stable';
-            const uptime = getUptimeString(process.uptime());
-            const memory = process.memoryUsage();
-            const ramUsed = (memory.heapUsed / 1024 / 1024).toFixed(1);
-            const ramTotal = (memory.heapTotal / 1024 / 1024).toFixed(1);
-            const platform = os.platform();
-            const activePlugins = countPlugins();
-            const boxMsg = `┌─ Status ─┐
+            try {
+                const start = Date.now();
+                const key = await ctx.reply('⏳ *Calculating latency...*');
+                const lat = Date.now() - start;
+                let speedStatus = '🚀 Fast';
+                if (lat > 200)
+                    speedStatus = '🐢 Slow';
+                else if (lat > 100)
+                    speedStatus = '⚡ Stable';
+                const uptime = getUptimeString(process.uptime());
+                const memory = process.memoryUsage();
+                const ramUsed = (memory.heapUsed / 1024 / 1024).toFixed(1);
+                const ramTotal = (memory.heapTotal / 1024 / 1024).toFixed(1);
+                const platform = os.platform();
+                const activePlugins = countPlugins();
+                const boxMsg = `┌─ Status ─┐
 │ Lat: ${lat}ms ${speedStatus}
 │ Up: ${uptime}
 │ RAM: ${ramUsed}/${ramTotal} MB
 │ OS: ${platform} Node${process.version}
 │ Plugin: ${activePlugins}
 └──────────┘`;
-            await client.edit(key).text(boxMsg);
+                await ctx.edit(boxMsg);
+            } catch (err) {
+                console.error('Error occurred in ping command:', err);
+                try {
+                    await ctx.reply(`❌ Error: ${err.message || err}`);
+                } catch (replyErr) {
+                    console.error('Failed to send error reply:', replyErr);
+                }
+            }
         });
     }
-};
+});

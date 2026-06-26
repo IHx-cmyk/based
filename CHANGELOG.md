@@ -4,6 +4,23 @@ All notable changes and updates made to this WhatsApp bot repository.
 
 ---
 
+## [1.2.0] - 2026-06-26
+
+### 🚀 Added
+- **Session Reset / Clean Logout (`/clearsession` / `/logout`)**:
+  - Implemented an Owner-only command to perform a clean logout from WhatsApp servers and purge local session authentication files.
+  - Utilizes the framework's native `client.logout()` to safely disconnect, unsubscribe, clear signal caches, and remove credentials without risk of session corruption.
+  - Gracefully exits the process after completion to allow automatic process managers (like PM2 or nodemon) to boot up fresh.
+- **Redis Database Storage Integration**:
+  - Integrated support for the `RedisAuthStore` and `RedisMessageStore` adapters.
+  - Automatically loads and uses Redis if the `REDIS_URL` environment variable is configured in the `.env` file.
+  - Configured separate Redis namespaces (`shnny-auth` and `shnny-store`) to isolate session state from chat history logs, preventing accidental data wipes on logout.
+  - Consolidated process execution by modifying start/dev scripts to automatically attempt background daemon initialization (`redis-server --daemonize yes`) before spawning the bot.
+
+### 🔧 Fixed
+- **Ping Command Registration**:
+  - Fixed a registration issue where the `/ping` command did not respond because it was exported as a named export (`export const pingPlugin`) instead of a default export (`export default definePlugin`) which the plugin loader expects.
+
 ## [1.1.0] - 2026-06-25
 
 ### 🚀 Added

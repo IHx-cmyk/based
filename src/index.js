@@ -1,11 +1,24 @@
-import { Client } from 'zaileys';
+import { Client, RedisAuthStore, RedisMessageStore } from 'zaileys';
 
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { logIncomingMessage } from './utils/logger.js';
+
+// Load environment variables natively if supported
+try {
+    if (typeof process.loadEnvFile === 'function') {
+        process.loadEnvFile();
+    }
+} catch (err) {
+    // Ignore if .env is missing or loadEnvFile is not defined
+}
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const client = new Client({
+
+const redisUrl = process.env.REDIS_URL;
+
+const clientOptions = {
     authType: 'pairing',
     phoneNumber: '4915511244565', // Ganti sama nomor lu bos
     sessionId: 'default',
@@ -18,7 +31,17 @@ const client = new Client({
         dir: join(__dirname, 'plugins'),
         watch: true,
     }
-});
+};
+
+if (redisUrl) {
+    console.log(`📡 [zaileys] Menggunakan database Redis: ${redisUrl}`);
+    clientOptions.auth = new RedisAuthStore({ url: redisUrl, namespace: 'shnny-auth' });
+    clientOptions.store = new RedisMessageStore({ url: redisUrl, namespace: 'shnny-store' });
+} else {
+    console.log('📂 [zaileys] Menggunakan database bawaan (File & Memory)');
+}
+
+const client = new Client(clientOptions);
 client.on('pairing-code', ({ code }) => {
     console.log('\n🔑 KODE PAIRING LU:', code, '\n');
 });
