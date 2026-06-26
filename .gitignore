@@ -18,3 +18,4 @@ pnpm-lock.yaml
 pnpm-workspace.yaml
 *.log
 .DS_Store
+src/utils/stats.json

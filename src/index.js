@@ -1,8 +1,9 @@
 import { Client, RedisAuthStore, RedisMessageStore } from 'zaileys';
-
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { logIncomingMessage } from './utils/logger.js';
+import { loadStats, trackMessage } from './utils/statsTracker.js';
+import { startDashboard } from './dashboard.js';
 
 // Load environment variables natively if supported
 try {
@@ -20,7 +21,7 @@ const redisUrl = process.env.REDIS_URL;
 
 const clientOptions = {
     authType: 'pairing',
-    phoneNumber: '4915511244565', // Ganti sama nomor lu bos
+    phoneNumber: '6285815252091', // Ganti sama nomor lu bos
     sessionId: 'default',
     commandPrefix: ['/', '#', '!', '📍'],
     ignoreMe: true,
@@ -41,24 +42,45 @@ if (redisUrl) {
     console.log('📂 [zaileys] Menggunakan database bawaan (File & Memory)');
 }
 
+// Track connection status globally for the web dashboard
+const connectionTracker = {
+    state: 'connecting',
+    me: null
+};
+
+// Load persistent stats
+await loadStats();
+
 const client = new Client(clientOptions);
+
 client.on('pairing-code', ({ code }) => {
     console.log('\n🔑 KODE PAIRING LU:', code, '\n');
+    connectionTracker.state = 'connecting';
 });
 client.on('connect', ({ me }) => {
     console.log('✅ Connected as', me.id);
+    connectionTracker.state = 'connected';
+    connectionTracker.me = me;
 });
 client.on('disconnect', ({ reason, willReconnect }) => {
     console.log(`❌ Disconnected: ${reason}, will reconnect: ${willReconnect}`);
+    connectionTracker.state = 'disconnected';
+    connectionTracker.me = null;
 });
 client.on('error', ({ error }) => {
     console.error('⚠️ Client error:', error);
 });
 
+// Start the Web Dashboard Panel
+startDashboard(client, connectionTracker);
+
 // Helper wrapper for logging and auto reading incoming messages
 async function handleIncomingMessage(ctx, msgType) {
     try {
         await logIncomingMessage(ctx, msgType);
+        // Track the message for the dashboard charts & tables
+        await trackMessage(ctx);
+        
         const jid = ctx.roomId ?? ctx.senderId;
         if (jid) {
             await client.chat.markRead(jid);
